@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    margin: 20px;
+    padding: 20px;
+}
+
+.bishop {
+    width: 30px;
+    height: 30px;
+}
+
+.tower {
+    width: 30px;
+    height: 30px;
+}
+
+.horse {
+    width: 30px;
+    height: 30px;
+}
+
+.white {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+}
+
+.black {
+    width: 30px;
+    height: 30px;
+    background-color: black;
+}
+
+.draw {
+    width: 10px;
+    height: 10px;
+    border: 10px solid black;
+    border-radius: 10px;
+    background-color: brown;
+}
