@@ -5,38 +5,46 @@ const Elements =  {
 }
 
 const Graphics = {
-    Bishop: '<div class= "bishop"></div>',
-    Tower: '<div class= "tower"></div>',
+    bishop: '<div class= "bishop"></div>',
+    tower: '<div class= "tower"></div>',
     horse: '<div class= "horse"></div>',
-    whitwSpace: '<div class= "white"></div>',
-    BlackSpace: '<div class= "black"></div>',
+    white: '<div class= "white"></div>',
+    black: '<div class= "black"></div>',
     draw: '<div class= "draw"></div>'
 }
-let html;
+
+let html = "";
 $(document).ready(function(){
-    drawChessBoard();
-    function drawChessBoard() {
+    drawChessBoard(8);
+
+    function drawChessBoard(n) {
         let matrix = new Array();
-    
-        for (let i = 0; i < 8; i ++) {
+        html += '<div class="chess-matrix">';
+        for (let i = 0; i < n; i ++) {
              matrix[i] = new Array();
-             html += '<div class="chessRow">';
-            for (let j = 0; j < 8; j ++) {
-                html += '<div class="casilla">';
+             html += '<div class="chess-row row">';
+            for (let j = 0; j < n; j ++) {
                 if(i%2){
                     if(j%2){
-                        html += '<div class="white">';
+                        html += Graphics.white;
                     } else {
-
+                        html += Graphics.black;
                     }
                 } else {
-                    html += '<div class="casilla">';
+                    if(j%2){
+                        html += Graphics.black;
+                    } else {
+                        html += Graphics.white;
+                    }
                 }
                 matrix[i][j] = 0;
             }  
-
-
+            html += '</div>'
         }
+        html += '</div>'
         console.log(matrix);
+        $(".main").html(html);
+
+        return matrix;
     }
 });
