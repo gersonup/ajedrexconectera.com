@@ -1,0 +1,233 @@
+
+
+// Creación de la matriz del tablero de ajedrez
+var board = [];
+for (var i = 0; i < 8; i++) {
+  board[i] = [];
+  for (var j = 0; j < 8; j++) {
+    board[i][j] = "";
+  }
+}
+
+// Función para calcular los movimientos posibles de la torre
+function towerMoves(i, j, board) {
+  var moves = [];
+  // Verificar movimientos hacia arriba
+  for (var k = i - 1; k >= 0; k--) {
+    if (board[k][j] === "") {
+      moves.push([k, j]);
+    } else if (board[k][j].endsWith("tower")) {
+      moves.push([k, j]);
+      break;
+    } else {
+      break;
+    }
+  }
+  // Verificar movimientos hacia abajo
+  for (var k = i + 1; k < 8; k++) {
+    if (board[k][j] === "") {
+      moves.push([k, j]);
+    } else if (board[k][j].endsWith("tower")) {
+      moves.push([k, j]);
+      break;
+    } else {
+      break;
+    }
+  }
+  // Verificar movimientos hacia la izquierda
+  for (var k = j - 1; k >= 0; k--) {
+    if (board[i][k] === "") {
+      moves.push([i, k]);
+    } else if (board[i][k].endsWith("tower")) {
+      moves.push([i, k]);
+      break;
+    } else {
+      break;
+    }
+  }
+  // Verificar movimientos hacia la derecha
+  for (var k = j + 1; k < 8; k++) {
+    if (board[i][k] === "") {
+      moves.push([i, k]);
+    } else if (board[i][k].endsWith("tower")) {
+      moves.push([i, k]);
+      break;
+    } else {
+      break;
+    }
+  }
+  return moves;
+}
+
+// Función para calcular los movimientos posibles del caballo
+function calculateKnightMoves(currentRow, currentCol) {
+    let possibleMoves = [];
+    let moveOffsets = [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]];
+    
+    for (let i = 0; i < moveOffsets.length; i++) {
+      let newRow = currentRow + moveOffsets[i][0];
+      let newCol = currentCol + moveOffsets[i][1];
+      
+      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+        possibleMoves.push([newRow, newCol]);
+      }
+    }
+    
+    return possibleMoves;
+  }
+  
+  $(document).on("click", ".chess-square", function() {
+    let currentRow = parseInt($(".knight").attr("data-row"));
+    let currentCol = parseInt($(".knight").attr("data-col"));
+    let newRow = parseInt($(this).attr("data-row"));
+    let newCol = parseInt($(this).attr("data-col"));
+    
+    let possibleMoves = calculateKnightMoves(currentRow, currentCol);
+    
+    for (let i = 0; i < possibleMoves.length; i++) {
+      if (possibleMoves[i][0] === newRow && possibleMoves[i][1] === newCol) {
+        $(".knight").attr("data-row", newRow);
+        $(".knight").attr("data-col", newCol);
+        $(".knight").css({
+          top: newRow * squareSize,
+          left: newCol * squareSize
+        });
+        break;
+      }
+    }
+  });
+  
+
+  function calculateRookMoves(row, col) {
+    let moves = [];
+  
+    for (let i = row - 1; i >= 0; i--) { // move up
+      moves.push([i, col]);
+      if ($(".chess-square[data-row='" + i + "'][data-col='" + col + "']").hasClass("piece")) {
+        break;
+      }
+    }
+  
+    for (let i = row + 1; i < 8; i++) { // move down
+      moves.push([i, col]);
+      if ($(".chess-square[data-row='" + i + "'][data-col='" + col + "']").hasClass("piece")) {
+        break;
+      }
+    }
+  
+    for (let j = col - 1; j >= 0; j--) { // move left
+      moves.push([row, j]);
+      if ($(".chess-square[data-row='" + row + "'][data-col='" + j + "']").hasClass("piece")) {
+        break;
+      }
+    }
+  
+    for (let j = col + 1; j < 8; j++) { // move right
+      moves.push([row, j]);
+      if ($(".chess-square[data-row='" + row + "'][data-col='" + j + "']").hasClass("piece")) {
+        break;
+      }
+    }
+  
+    return moves;
+  }
+  
+
+  <!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .chessboard {
+      display: flex;
+      flex-wrap: wrap;
+      width: 320px;
+      height: 320px;
+    }
+    .chessboard .cell {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      font-size: 24px;
+      box-sizing: border-box;
+    }
+    .chessboard .black {
+      background-color: black;
+      color: white;
+    }
+    .chessboard .white {
+      background-color: white;
+      color: black;
+    }
+    .chessboard .selected {
+      background-color: yellow;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var board = [];
+      for (var i = 0; i < 8; i++) {
+        board[i] = [];
+        for (var j = 0; j < 8; j++) {
+          board[i][j] = "";
+        }
+      }
+      var selected = null;
+      var $chessboard = $(".chessboard");
+      for (var i = 0; i < 8; i++) {
+        for (var j = 0; j < 8; j++) {
+          var $cell = $("<div class='cell'></div>");
+          $cell.attr("id", i + "-" + j);
+          if ((i + j) % 2 === 0) {
+            $cell.addClass("black");
+          } else {
+            $cell.addClass("white");
+          }
+          $cell.click(function() {
+            var id = $(this).attr("id");
+            var i = parseInt(id.split("-")[0]);
+            var j = parseInt(id.split("-")[1]);
+            if (selected) {
+              var piece = selected.split("-")[0];
+              board[i][j] = piece;
+              selected = null;
+              render();
+            } else if (board[i][j] !== "") {
+              selected = board[i][j] + "-" + i + "-" + j;
+              render();
+            }
+          });
+          $chessboard.append($cell);
+        }
+      }
+      function render() {
+        for (var i = 0; i < 8; i++) {
+          for (var j = 0; j < 8; j++) {
+            var piece = board[i][j];
+            var $cell = $("#" + i + "-" + j);
+            $cell.removeClass("selected");
+            $cell.text("");
+            if (piece === "knight") {
+              $cell.text("C");
+            } else if piece === "bishop") {
+              $cell.text("A");
+            } else if (piece === "rook") {
+              $cell.text("T");
+            }
+            if (selected && selected.endsWith(i + "-" + j)) {
+              $cell.addClass("selected");
+              var moves = [];
+              if (piece === "knight") {
+                moves = knightMoves(i, j, board);
+              } else if (piece === "bishop") {
+                moves = bishopMoves(i, j, board);
+              } else if (piece === "rook") {
+                moves = rookMoves(i, j, board);
+              }
+              for (var k = 0; k < moves.length; k++) {
+                $("#" + moves[k][0] + "-" + moves[k][1]).addClass("selected");
+              }
+            }
+          }
+        }
+      }

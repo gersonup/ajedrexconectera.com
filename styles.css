@@ -6,33 +6,46 @@
 .main {
     margin: 20px;
     padding: 20px;
+    display: grid;
+}
+.chessRow{
+    display: flex;
 }
 
 .bishop {
     width: 30px;
     height: 30px;
+    background-image: url(/resources/img/bishop.png);
+    background-size: 100%;
+    background-position: 50% 50%;
 }
 
-.tower {
+.rook {
     width: 30px;
     height: 30px;
+    background-image: url(/resources/img/rook.png);
+    background-size: 100%;
+    background-position: 50% 50%;
 }
 
 .horse {
     width: 30px;
     height: 30px;
+    background-image: url(/resources/img/knight.png);
+    background-size: 100%;
+    background-position: 50% 50%;
 }
 
 .white {
-    width: 30px;
-    height: 30px;
+    width: 80px;
+    height: 80px;
     background-color: white;
 }
 
 .black {
-    width: 30px;
-    height: 30px;
-    background-color: black;
+    width: 80px;
+    height: 80px;
+    background-color: rgb(127, 129, 127);
 }
 
 .draw {
@@ -41,4 +54,13 @@
     border: 10px solid black;
     border-radius: 10px;
     background-color: brown;
+}
+
+.pieces div:first-child {
+    background-color: blue;
+    padding: 5px;
+}
+
+.selected {
+    background-color: blue;
 }
